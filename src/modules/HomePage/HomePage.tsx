@@ -1,11 +1,10 @@
-/* eslint-disable import/extensions */
-/* eslint-disable prettier/prettier */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts } from '../../api/products';
+import { getImageUrl } from '../../constants';
 import { Product } from '../../types/Product';
 import { PicturesSlider } from '../../components/PicturesSlider';
-import { ProductsSlider } from '../../components/ProductsSlider/ProductsSlider';
+import { ProductsSlider } from '../../components/ProductsSlider';
 import styles from './HomePage.module.scss';
 
 export const HomePage = () => {
@@ -22,7 +21,7 @@ export const HomePage = () => {
   const brandNew = [...products].sort((a, b) => b.year - a.year).slice(0, 8);
 
   const hotPrices = [...products]
-    .filter((product) => product.fullPrice > product.price)
+    .filter(product => product.fullPrice > product.price)
     .sort((a, b) => b.fullPrice - b.price - (a.fullPrice - a.price))
     .slice(0, 8);
 
@@ -43,41 +42,37 @@ export const HomePage = () => {
           <Link to="/phones" className={styles.category}>
             <div className={styles.categoryImage}>
               <img
-                src={`${import.meta.env.BASE_URL}img/category-phones.webp`}
+                src={getImageUrl('img/category-phones.webp')}
                 alt="Mobile phones"
               />
             </div>
             <h3>Mobile phones</h3>
-            <p>
-              {products.filter((p) => p.category === 'phones').length} models
-            </p>
+            <p>{products.filter(p => p.category === 'phones').length} models</p>
           </Link>
 
           <Link to="/tablets" className={styles.category}>
             <div className={styles.categoryImage}>
               <img
-                src={`${import.meta.env.BASE_URL}img/category-tablets.webp`}
+                src={getImageUrl('img/category-tablets.webp')}
                 alt="Tablets"
               />
             </div>
             <h3>Tablets</h3>
             <p>
-              {products.filter((p) => p.category === 'tablets').length}{' '}
-              models
+              {products.filter(p => p.category === 'tablets').length} models
             </p>
           </Link>
 
           <Link to="/accessories" className={styles.category}>
             <div className={styles.categoryImage}>
               <img
-                src={`${import.meta.env.BASE_URL}img/category-accessories.webp`}
+                src={getImageUrl('img/category-accessories.webp')}
                 alt="Accessories"
               />
             </div>
             <h3>Accessories</h3>
             <p>
-              {products.filter((p) => p.category === 'accessories').length}{' '}
-              models
+              {products.filter(p => p.category === 'accessories').length} models
             </p>
           </Link>
         </div>

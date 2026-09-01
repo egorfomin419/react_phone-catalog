@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './SearchField.module.scss';
@@ -9,33 +8,37 @@ type Props = {
 
 export const SearchField = ({ placeholder }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [value, setValue] = useState(searchParams.get('query') || '');
+  const [value, setValue] = useState<string>('');
 
   useEffect(() => {
     setValue(searchParams.get('query') || '');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams.get('query')]);
+  }, [searchParams]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const next = new URLSearchParams(searchParams);
+      setSearchParams(prev => {
+        const currentQuery = prev.get('query') || '';
 
-      if (value) {
-        next.set('query', value);
-      } else {
-        next.delete('query');
-      }
+        if (currentQuery === value) {
+          return prev;
+        }
 
-      next.delete('page');
+        const next = new URLSearchParams(prev);
 
-      if (next.toString() !== searchParams.toString()) {
-        setSearchParams(next);
-      }
+        if (value) {
+          next.set('query', value);
+        } else {
+          next.delete('query');
+        }
+
+        next.delete('page');
+
+        return next;
+      });
     }, 300);
 
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  }, [value, setSearchParams]);
 
   return (
     <div className={styles.wrapper}>
@@ -44,7 +47,7 @@ export const SearchField = ({ placeholder }: Props) => {
         className={styles.input}
         placeholder={placeholder}
         value={value}
-        onChange={(event) => setValue(event.target.value)}
+        onChange={event => setValue(event.target.value)}
       />
 
       {value && (

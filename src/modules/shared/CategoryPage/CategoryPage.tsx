@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getProducts } from '../../../api/products';
@@ -18,8 +16,8 @@ const PER_PAGE_OPTIONS = ['4', '8', '16', 'all'];
 
 export const CategoryPage = ({ category, title }: Props) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -33,8 +31,8 @@ export const CategoryPage = ({ category, title }: Props) => {
     setHasError(false);
 
     getProducts()
-      .then((data) => {
-        setProducts(data.filter((product) => product.category === category));
+      .then(data => {
+        setProducts(data.filter(product => product.category === category));
       })
       .catch(() => {
         setHasError(true);
@@ -54,7 +52,7 @@ export const CategoryPage = ({ category, title }: Props) => {
       return products;
     }
 
-    return products.filter((product) =>
+    return products.filter(product =>
       product.name.toLowerCase().includes(query.toLowerCase()),
     );
   }, [products, query]);
@@ -104,9 +102,7 @@ export const CategoryPage = ({ category, title }: Props) => {
     setSearchParams(next);
   };
 
-  const handlePerPageChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newPerPage = event.target.value;
 
     const next = new URLSearchParams(searchParams);
@@ -161,7 +157,7 @@ export const CategoryPage = ({ category, title }: Props) => {
             <span>Items on page</span>
 
             <select value={perPage} onChange={handlePerPageChange}>
-              {PER_PAGE_OPTIONS.map((option) => (
+              {PER_PAGE_OPTIONS.map(option => (
                 <option key={option} value={option}>
                   {option === 'all' ? 'All' : option}
                 </option>
@@ -169,10 +165,10 @@ export const CategoryPage = ({ category, title }: Props) => {
             </select>
           </label>
 
-          <label className={styles.control}>
+          <div className={styles.control}>
             <span>Search</span>
             <SearchField placeholder={`Search in ${category}...`} />
-          </label>
+          </div>
         </div>
       )}
 
@@ -212,7 +208,7 @@ export const CategoryPage = ({ category, title }: Props) => {
             ‹
           </button>
 
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
             <button
               key={p}
               type="button"

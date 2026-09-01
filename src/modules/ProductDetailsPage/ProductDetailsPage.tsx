@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -11,6 +10,7 @@ import { Loader } from '../../components/Loader';
 import { ProductsList } from '../../components/ProductsList';
 import { Breadcrumbs } from '../../components/Breadcrumbs';
 import { getColorValue } from '../../utils/colors';
+import { getImageUrl } from '../../constants';
 import { useCart } from '../../context/CartContext';
 import { useFavorites } from '../../context/FavoritesContext';
 import styles from './ProductDetailsPage.module.scss';
@@ -28,9 +28,9 @@ export const ProductDetailsPage = () => {
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [family, setFamily] = useState<ProductDetails[]>([]);
   const [suggested, setSuggested] = useState<Product[]>([]);
-  const [activeImage, setActiveImage] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+  const [activeImage, setActiveImage] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [notFound, setNotFound] = useState<boolean>(false);
 
   const { addToCart, isInCart } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
@@ -65,9 +65,9 @@ export const ProductDetailsPage = () => {
       return [];
     }
 
-    return product.colorsAvailable.map((color) => {
+    return product.colorsAvailable.map(color => {
       const match = family.find(
-        (item) => item.color === color && item.capacity === product.capacity,
+        item => item.color === color && item.capacity === product.capacity,
       );
 
       return { color, id: match?.id };
@@ -79,9 +79,9 @@ export const ProductDetailsPage = () => {
       return [];
     }
 
-    return product.capacityAvailable.map((capacity) => {
+    return product.capacityAvailable.map(capacity => {
       const match = family.find(
-        (item) => item.capacity === capacity && item.color === product.color,
+        item => item.capacity === capacity && item.color === product.color,
       );
 
       return { capacity, id: match?.id };
@@ -96,7 +96,7 @@ export const ProductDetailsPage = () => {
     return (
       <main className={styles.page}>
         <img
-          src={`${import.meta.env.BASE_URL}img/product-not-found.png`}
+          src={getImageUrl('img/product-not-found.png')}
           alt="Product not found"
           className={styles.notFoundImage}
         />
@@ -104,7 +104,7 @@ export const ProductDetailsPage = () => {
         <p className={styles.notFound}>Product was not found</p>
 
         <Link to="/" className={styles.backHome}>
-        Go back home
+          Go back home
         </Link>
       </main>
     );
@@ -163,17 +163,14 @@ export const ProductDetailsPage = () => {
                 }`}
                 onClick={() => setActiveImage(index)}
               >
-                <img
-                  src={`${import.meta.env.BASE_URL}${image}`}
-                  alt={product.name}
-                />
+                <img src={getImageUrl(image)} alt={product.name} />
               </button>
             ))}
           </div>
 
           <div className={styles.mainImage}>
             <img
-              src={`${import.meta.env.BASE_URL}${product.images[activeImage]}`}
+              src={getImageUrl(product.images[activeImage])}
               alt={product.name}
             />
           </div>
@@ -222,9 +219,7 @@ export const ProductDetailsPage = () => {
             <span className={styles.price}>${product.priceDiscount}</span>
 
             {product.priceRegular > product.priceDiscount && (
-              <span className={styles.fullPrice}>
-                ${product.priceRegular}
-              </span>
+              <span className={styles.fullPrice}>${product.priceRegular}</span>
             )}
           </div>
 
@@ -279,11 +274,11 @@ export const ProductDetailsPage = () => {
         <section className={styles.about}>
           <h2>About</h2>
 
-          {product.description.map((block) => (
+          {product.description.map(block => (
             <div key={block.title} className={styles.descriptionBlock}>
               <h3>{block.title}</h3>
 
-              {block.text.map((paragraph) => (
+              {block.text.map(paragraph => (
                 <p key={paragraph.slice(0, 20)}>{paragraph}</p>
               ))}
             </div>

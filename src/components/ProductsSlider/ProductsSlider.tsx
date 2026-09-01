@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useRef } from 'react';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard';
@@ -58,7 +57,7 @@ export const ProductsSlider = ({ title, products }: Props) => {
       </div>
 
       <div className={styles.track} ref={trackRef}>
-        {products.map((product) => (
+        {products.map(product => (
           <div key={product.id} className={styles.slide}>
             <ProductCard product={product} />
           </div>

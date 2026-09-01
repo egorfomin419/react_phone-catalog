@@ -1,5 +1,6 @@
 import { CartItem as CartItemType } from '../../types/CartItem';
 import { useCart } from '../../context/CartContext';
+import { getImageUrl } from '../../constants';
 import styles from './CartItem.module.scss';
 
 type Props = {
@@ -22,7 +23,7 @@ export const CartItem = ({ item }: Props) => {
       </button>
 
       <img
-        src={`${import.meta.env.BASE_URL}${product.image}`}
+        src={getImageUrl(product.image)}
         alt={product.name}
         className={styles.image}
       />

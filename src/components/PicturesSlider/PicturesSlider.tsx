@@ -1,5 +1,5 @@
-/* eslint-disable prettier/prettier */
 import { useEffect, useState } from 'react';
+import { getImageUrl } from '../../constants';
 import styles from './PicturesSlider.module.scss';
 
 const SLIDES = [
@@ -11,22 +11,22 @@ const SLIDES = [
 const INTERVAL = 5000;
 
 export const PicturesSlider = () => {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState<number>(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % SLIDES.length);
+      setCurrent(prev => (prev + 1) % SLIDES.length);
     }, INTERVAL);
 
     return () => clearInterval(timer);
   }, []);
 
   const goToPrev = () => {
-    setCurrent((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
+    setCurrent(prev => (prev - 1 + SLIDES.length) % SLIDES.length);
   };
 
   const goToNext = () => {
-    setCurrent((prev) => (prev + 1) % SLIDES.length);
+    setCurrent(prev => (prev + 1) % SLIDES.length);
   };
 
   return (
@@ -46,10 +46,10 @@ export const PicturesSlider = () => {
             className={styles.track}
             style={{ transform: `translateX(-${current * 100}%)` }}
           >
-            {SLIDES.map((slide) => (
+            {SLIDES.map(slide => (
               <img
                 key={slide.image}
-                src={`${import.meta.env.BASE_URL}${slide.image}`}
+                src={getImageUrl(slide.image)}
                 alt={slide.label}
                 className={styles.image}
               />

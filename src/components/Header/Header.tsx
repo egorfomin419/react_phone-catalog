@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
@@ -16,7 +15,7 @@ export const Header = () => {
   const { totalQuantity } = useCart();
   const { favorites } = useFavorites();
   const { pathname } = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -27,7 +26,7 @@ export const Header = () => {
           type="button"
           className={styles.burger}
           aria-label="Toggle menu"
-          onClick={() => setIsMenuOpen((prev) => !prev)}
+          onClick={() => setIsMenuOpen(prev => !prev)}
         >
           {isMenuOpen ? '✕' : '☰'}
         </button>
@@ -38,7 +37,7 @@ export const Header = () => {
         </Link>
 
         <nav className={styles.navigation}>
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.map(link => (
             <Link
               key={link.to}
               to={link.to}
@@ -71,7 +70,7 @@ export const Header = () => {
       {isMenuOpen && (
         <div className={styles.mobileMenu}>
           <nav className={styles.mobileNav}>
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map(link => (
               <Link
                 key={link.to}
                 to={link.to}

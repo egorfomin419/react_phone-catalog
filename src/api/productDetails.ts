@@ -1,9 +1,12 @@
-/* eslint-disable prettier/prettier */
-import { Category } from '../types/Product';
+import { Category, Product } from '../types/Product';
 import { ProductDetails } from '../types/ProductDetails';
+import { BASE_URL } from '../constants';
 import { getProducts } from './products';
 
-const BASE_URL = `${import.meta.env.BASE_URL}api`;
+type ProductDetailsResult = {
+  product: ProductDetails;
+  family: ProductDetails[];
+};
 
 const getCategoryProducts = async (
   category: Category,
@@ -17,23 +20,25 @@ const getCategoryProducts = async (
   return response.json();
 };
 
-export const getProductDetails = async (productId: string) => {
+export const getProductDetails = async (
+  productId: string,
+): Promise<ProductDetailsResult> => {
   const products = await getProducts();
-  const found = products.find((p) => p.itemId === productId);
+  const found = products.find(p => p.itemId === productId);
 
   if (!found) {
     throw new Error('Product not found');
   }
 
   const categoryProducts = await getCategoryProducts(found.category);
-  const product = categoryProducts.find((p) => p.id === productId);
+  const product = categoryProducts.find(p => p.id === productId);
 
   if (!product) {
     throw new Error('Product not found');
   }
 
   const family = categoryProducts.filter(
-    (p) => p.namespaceId === product.namespaceId,
+    p => p.namespaceId === product.namespaceId,
   );
 
   return { product, family };
@@ -42,11 +47,11 @@ export const getProductDetails = async (productId: string) => {
 export const getSuggestedProducts = async (
   category: Category,
   excludeItemId: string,
-) => {
+): Promise<Product[]> => {
   const products = await getProducts();
 
   const filtered = products.filter(
-    (p) => p.category === category && p.itemId !== excludeItemId,
+    p => p.category === category && p.itemId !== excludeItemId,
   );
 
   return filtered.sort(() => Math.random() - 0.5).slice(0, 4);

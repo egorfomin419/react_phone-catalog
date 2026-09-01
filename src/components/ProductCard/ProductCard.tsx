@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Product } from '../../types/Product';
+import { getImageUrl } from '../../constants';
 import { useCart } from '../../context/CartContext';
 import { useFavorites } from '../../context/FavoritesContext';
 import styles from './ProductCard.module.scss';
@@ -23,11 +24,7 @@ export const ProductCard = ({ product }: Props) => {
   return (
     <div className={styles.card}>
       <Link to={`/product/${itemId}`} className={styles.imageLink}>
-        <img
-          src={`${import.meta.env.BASE_URL}${image}`}
-          alt={name}
-          className={styles.image}
-        />
+        <img src={getImageUrl(image)} alt={name} className={styles.image} />
       </Link>
 
       <Link to={`/product/${itemId}`} className={styles.name}>

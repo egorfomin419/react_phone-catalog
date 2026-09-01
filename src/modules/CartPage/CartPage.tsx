@@ -1,12 +1,12 @@
-/* eslint-disable prettier/prettier */
 import { useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { CartItem } from '../../components/CartItem';
+import { getImageUrl } from '../../constants';
 import styles from './CartPage.module.scss';
 
 export const CartPage = () => {
   const { items, totalQuantity, totalPrice, clearCart } = useCart();
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const confirmCheckout = () => {
     clearCart();
@@ -19,16 +19,13 @@ export const CartPage = () => {
 
       {items.length === 0 ? (
         <div className={styles.empty}>
-          <img
-            src={`${import.meta.env.BASE_URL}img/cart-is-empty.png`}
-            alt="Cart is empty"
-          />
+          <img src={getImageUrl('img/cart-is-empty.png')} alt="Cart is empty" />
           <p>Your cart is empty</p>
         </div>
       ) : (
         <div className={styles.content}>
           <div className={styles.list}>
-            {items.map((item) => (
+            {items.map(item => (
               <CartItem key={item.product.itemId} item={item} />
             ))}
           </div>
