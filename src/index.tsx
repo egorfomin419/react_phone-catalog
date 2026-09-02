@@ -5,8 +5,13 @@ import { App } from './App';
 import { CartProvider } from './context/CartContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 
+const basename = new URL(
+  import.meta.env.BASE_URL,
+  window.location.origin,
+).pathname;
+
 createRoot(document.getElementById('root') as HTMLElement).render(
-  <BrowserRouter basename={import.meta.env.BASE_URL}>
+  <BrowserRouter basename={basename}>
     <CartProvider>
       <FavoritesProvider>
         <App />
