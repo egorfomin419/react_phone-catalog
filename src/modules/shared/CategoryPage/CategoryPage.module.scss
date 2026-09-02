@@ -110,3 +110,14 @@
   color: #fff;
   border-color: #313237 !important;
 }
+
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  color: #89939a;
+}

@@ -3,10 +3,11 @@ import { useSearchParams } from 'react-router-dom';
 import styles from './SearchField.module.scss';
 
 type Props = {
+  id: string;
   placeholder: string;
 };
 
-export const SearchField = ({ placeholder }: Props) => {
+export const SearchField = ({ id, placeholder }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [value, setValue] = useState<string>('');
 
@@ -43,6 +44,7 @@ export const SearchField = ({ placeholder }: Props) => {
   return (
     <div className={styles.wrapper}>
       <input
+        id={id}
         type="text"
         className={styles.input}
         placeholder={placeholder}

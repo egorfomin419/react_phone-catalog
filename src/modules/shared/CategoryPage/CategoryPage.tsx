@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getProducts } from '../../../api/products';
@@ -13,6 +14,36 @@ type Props = {
 };
 
 const PER_PAGE_OPTIONS = ['4', '8', '16', 'all'];
+
+const getPageNumbers = (
+  current: number,
+  total: number,
+): (number | string)[] => {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  const pages: (number | string)[] = [1];
+
+  if (current > 3) {
+    pages.push('...');
+  }
+
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+
+  for (let i = start; i <= end; i += 1) {
+    pages.push(i);
+  }
+
+  if (current < total - 2) {
+    pages.push('...');
+  }
+
+  pages.push(total);
+
+  return pages;
+};
 
 export const CategoryPage = ({ category, title }: Props) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -165,10 +196,10 @@ export const CategoryPage = ({ category, title }: Props) => {
             </select>
           </label>
 
-          <div className={styles.control}>
+          <label className={styles.control}>
             <span>Search</span>
             <SearchField placeholder={`Search in ${category}...`} />
-          </div>
+          </label>
         </div>
       )}
 
@@ -208,16 +239,23 @@ export const CategoryPage = ({ category, title }: Props) => {
             ‹
           </button>
 
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-            <button
-              key={p}
-              type="button"
-              className={p === page ? styles.pageActive : ''}
-              onClick={() => handlePageChange(p)}
-            >
-              {p}
-            </button>
-          ))}
+          {getPageNumbers(page, totalPages).map((p, index) =>
+            typeof p === 'number' ? (
+              <button
+                key={p}
+                type="button"
+                className={p === page ? styles.pageActive : ''}
+                onClick={() => handlePageChange(p)}
+              >
+                {p}
+              </button>
+            ) : (
+              // eslint-disable-next-line react/no-array-index-key
+              <span key={`ellipsis-${index}`} className={styles.ellipsis}>
+                {p}
+              </span>
+            ),
+          )}
 
           <button
             type="button"
