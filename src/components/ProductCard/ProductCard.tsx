@@ -7,19 +7,29 @@ import styles from './ProductCard.module.scss';
 
 type Props = {
   product: Product;
+  hideDiscount?: boolean;
 };
 
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product, hideDiscount = false }: Props) => {
   const { itemId, name, price, fullPrice, screen, capacity, ram, image } =
     product;
 
-  const hasDiscount = fullPrice > price;
+  const hasDiscount = !hideDiscount && fullPrice > price;
+  const displayPrice = hideDiscount ? fullPrice : price;
 
-  const { addToCart, isInCart } = useCart();
+  const { addToCart, removeFromCart, isInCart } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
 
   const inCart = isInCart(itemId);
   const favorite = isFavorite(itemId);
+
+  const handleCartClick = () => {
+    if (inCart) {
+      removeFromCart(itemId);
+    } else {
+      addToCart(product);
+    }
+  };
 
   return (
     <div className={styles.card}>
@@ -32,9 +42,11 @@ export const ProductCard = ({ product }: Props) => {
       </Link>
 
       <div className={styles.priceRow}>
-        <span className={styles.price}>${price}</span>
+        <span className={styles.price}>${displayPrice}</span>
 
-        {hasDiscount && <span className={styles.fullPrice}>${fullPrice}</span>}
+        {hasDiscount && (
+          <span className={styles.fullPrice}>${fullPrice}</span>
+        )}
       </div>
 
       <div className={styles.divider} />
@@ -62,7 +74,7 @@ export const ProductCard = ({ product }: Props) => {
           className={`${styles.addToCart} ${
             inCart ? styles.addToCartActive : ''
           }`}
-          onClick={() => addToCart(product)}
+          onClick={handleCartClick}
         >
           {inCart ? 'Added to cart' : 'Add to cart'}
         </button>

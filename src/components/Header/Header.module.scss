@@ -17,14 +17,14 @@
   display: flex;
   align-items: center;
 
-  padding-inline: 40px;
+  padding-left: 16px;
 
   @media (min-width: 640px) {
-    padding-inline: 24px;
+    padding-left: 24px;
   }
 
   @media (min-width: 1200px) {
-    padding-inline: 40px;
+    padding-left: 40px;
   }
 }
 
@@ -124,8 +124,6 @@
   }
 }
 
-
-
 .badge {
   position: absolute;
   top: 8px;
@@ -164,8 +162,6 @@
     display: none;
   }
 }
-
-
 
 .mobileMenu {
   position: fixed;

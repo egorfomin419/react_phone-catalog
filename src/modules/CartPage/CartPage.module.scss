@@ -34,8 +34,6 @@
   flex-direction: column;
   gap: 24px;
 
-  max-width: 720px;
-
   @media (min-width: 1200px) {
     flex-direction: row;
     align-items: flex-start;
@@ -61,7 +59,8 @@
   width: 100%;
 
   @media (min-width: 1200px) {
-    width: 280px;
+    width: 320px;
+    flex-shrink: 0;
   }
 }
 

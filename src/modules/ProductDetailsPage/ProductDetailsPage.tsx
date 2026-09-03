@@ -32,7 +32,7 @@ export const ProductDetailsPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [notFound, setNotFound] = useState<boolean>(false);
 
-  const { addToCart, isInCart } = useCart();
+  const { addToCart, removeFromCart, isInCart } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
 
   useEffect(() => {
@@ -229,7 +229,10 @@ export const ProductDetailsPage = () => {
               className={`${styles.addToCart} ${
                 inCart ? styles.addToCartActive : ''
               }`}
-              onClick={() => addToCart(cartProduct)}
+              onClick={() =>
+                // eslint-disable-next-line max-len
+                inCart ? removeFromCart(cartProduct.itemId) : addToCart(cartProduct)
+              }
             >
               {inCart ? 'Added to cart' : 'Add to cart'}
             </button>

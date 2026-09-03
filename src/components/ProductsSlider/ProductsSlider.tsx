@@ -6,9 +6,14 @@ import styles from './ProductsSlider.module.scss';
 type Props = {
   title: string;
   products: Product[];
+  hideDiscount?: boolean;
 };
 
-export const ProductsSlider = ({ title, products }: Props) => {
+export const ProductsSlider = ({
+  title,
+  products,
+  hideDiscount = false,
+}: Props) => {
   const trackRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'prev' | 'next') => {
@@ -57,9 +62,9 @@ export const ProductsSlider = ({ title, products }: Props) => {
       </div>
 
       <div className={styles.track} ref={trackRef}>
-        {products.map(product => (
+        {products.map((product) => (
           <div key={product.id} className={styles.slide}>
-            <ProductCard product={product} />
+            <ProductCard product={product} hideDiscount={hideDiscount} />
           </div>
         ))}
       </div>
