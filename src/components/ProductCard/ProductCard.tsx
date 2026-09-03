@@ -44,9 +44,7 @@ export const ProductCard = ({ product, hideDiscount = false }: Props) => {
       <div className={styles.priceRow}>
         <span className={styles.price}>${displayPrice}</span>
 
-        {hasDiscount && (
-          <span className={styles.fullPrice}>${fullPrice}</span>
-        )}
+        {hasDiscount && <span className={styles.fullPrice}>${fullPrice}</span>}
       </div>
 
       <div className={styles.divider} />

@@ -62,7 +62,7 @@ export const ProductsSlider = ({
       </div>
 
       <div className={styles.track} ref={trackRef}>
-        {products.map((product) => (
+        {products.map(product => (
           <div key={product.id} className={styles.slide}>
             <ProductCard product={product} hideDiscount={hideDiscount} />
           </div>

@@ -10,7 +10,7 @@ type Props = {
 export const ProductsList = ({ products, hideDiscount = false }: Props) => {
   return (
     <div className={styles.list}>
-      {products.map((product) => (
+      {products.map(product => (
         <ProductCard
           key={product.id}
           product={product}

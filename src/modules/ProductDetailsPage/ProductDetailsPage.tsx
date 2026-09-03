@@ -40,6 +40,8 @@ export const ProductDetailsPage = () => {
       return;
     }
 
+    window.scrollTo({ top: 0, behavior: 'auto' });
+
     setIsLoading(true);
     setNotFound(false);
     setActiveImage(0);
@@ -65,9 +67,9 @@ export const ProductDetailsPage = () => {
       return [];
     }
 
-    return product.colorsAvailable.map(color => {
+    return product.colorsAvailable.map((color) => {
       const match = family.find(
-        item => item.color === color && item.capacity === product.capacity,
+        (item) => item.color === color && item.capacity === product.capacity,
       );
 
       return { color, id: match?.id };
@@ -79,9 +81,9 @@ export const ProductDetailsPage = () => {
       return [];
     }
 
-    return product.capacityAvailable.map(capacity => {
+    return product.capacityAvailable.map((capacity) => {
       const match = family.find(
-        item => item.capacity === capacity && item.color === product.color,
+        (item) => item.capacity === capacity && item.color === product.color,
       );
 
       return { capacity, id: match?.id };
@@ -219,7 +221,9 @@ export const ProductDetailsPage = () => {
             <span className={styles.price}>${product.priceDiscount}</span>
 
             {product.priceRegular > product.priceDiscount && (
-              <span className={styles.fullPrice}>${product.priceRegular}</span>
+              <span className={styles.fullPrice}>
+                ${product.priceRegular}
+              </span>
             )}
           </div>
 
@@ -230,8 +234,9 @@ export const ProductDetailsPage = () => {
                 inCart ? styles.addToCartActive : ''
               }`}
               onClick={() =>
-                // eslint-disable-next-line max-len
-                inCart ? removeFromCart(cartProduct.itemId) : addToCart(cartProduct)
+                inCart
+                  ? removeFromCart(cartProduct.itemId)
+                  : addToCart(cartProduct)
               }
             >
               {inCart ? 'Added to cart' : 'Add to cart'}
@@ -277,11 +282,11 @@ export const ProductDetailsPage = () => {
         <section className={styles.about}>
           <h2>About</h2>
 
-          {product.description.map(block => (
+          {product.description.map((block) => (
             <div key={block.title} className={styles.descriptionBlock}>
               <h3>{block.title}</h3>
 
-              {block.text.map(paragraph => (
+              {block.text.map((paragraph) => (
                 <p key={paragraph.slice(0, 20)}>{paragraph}</p>
               ))}
             </div>

@@ -21,7 +21,7 @@ export const HomePage = () => {
   const brandNew = [...products].sort((a, b) => b.year - a.year).slice(0, 8);
 
   const hotPrices = [...products]
-    .filter((product) => product.fullPrice > product.price)
+    .filter(product => product.fullPrice > product.price)
     .sort((a, b) => b.fullPrice - b.price - (a.fullPrice - a.price))
     .slice(0, 8);
 
@@ -51,9 +51,7 @@ export const HomePage = () => {
               />
             </div>
             <h3>Mobile phones</h3>
-            <p>
-              {products.filter((p) => p.category === 'phones').length} models
-            </p>
+            <p>{products.filter(p => p.category === 'phones').length} models</p>
           </Link>
 
           <Link to="/tablets" className={styles.category}>
@@ -65,8 +63,7 @@ export const HomePage = () => {
             </div>
             <h3>Tablets</h3>
             <p>
-              {products.filter((p) => p.category === 'tablets').length}{' '}
-              models
+              {products.filter(p => p.category === 'tablets').length} models
             </p>
           </Link>
 
@@ -79,8 +76,7 @@ export const HomePage = () => {
             </div>
             <h3>Accessories</h3>
             <p>
-              {products.filter((p) => p.category === 'accessories').length}{' '}
-              models
+              {products.filter(p => p.category === 'accessories').length} models
             </p>
           </Link>
         </div>
